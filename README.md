@@ -1,3 +1,8 @@
+![Docker Build Status](https://img.shields.io/docker/build/pallavkothari/hello.svg) 
+![Docker Automated build](https://img.shields.io/docker/automated/pallavkothari/hello.svg)
+    
+
+
 # hello
 
 ```bash
