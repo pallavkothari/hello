@@ -18,3 +18,10 @@ docker run --name hello --rm -p 5000:5000 hello:0.0.1
 ## dev
 docker run --name hello --rm -p 5000:5000 -e SPRING_PROFILES_ACTIVE=dev hello:0.0.1
 ```
+
+releasing (triggers a versioned build on [dockerhub](https://hub.docker.com/r/pallavkothari/hello/tags/))
+
+```bash
+git tag -am "fancy release" 0.0.1 
+git push --tags
+```
