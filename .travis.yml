@@ -2,8 +2,19 @@ sudo: required
 services:
   - docker
 
+before_script:
+  - docker pull pallavkothari/hello-travis || true
+
 script:
-  - docker build --tag myimage .
+  - docker build --pull --cache-from pallavkothari/hello-travis --tag pallavkothari/hello-travis .
 
 after_script:
   - docker images
+
+before_deploy:
+  - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
+deploy:
+  provider: script
+  script: docker push pallavkothari/hello-travis
+  on:
+    branch: master
