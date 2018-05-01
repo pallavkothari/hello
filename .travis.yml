@@ -25,11 +25,13 @@ after_script:
   - docker images
 
 before_deploy:
-  - if [ ! -z "$TRAVIS_TAG" ]; then export IMAGE_TAG=$TRAVIS_TAG; else export IMAGE_TAG=$TRAVIS_BRANCH; fi
+  - GIT_SHA="$(git rev-parse --short HEAD)"
+  - if [ ! -z "$TRAVIS_TAG" ]; then export IMAGE_TAG=$TRAVIS_TAG; else export IMAGE_TAG=${GIT_SHA}-${TRAVIS_BRANCH}; fi
   - docker tag "$IMAGE_NAME":pr "$IMAGE_NAME":"$IMAGE_TAG";
+  - docker tag "$IMAGE_NAME":pr "${IMAGE_NAME}:latest"
   - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
 deploy:
   provider: script
-  script: docker push "$IMAGE_NAME":"$IMAGE_TAG"
+  script: docker push "$IMAGE_NAME":"$IMAGE_TAG" && docker push "${IMAGE_NAME}:latest"
   on:
     all_branches: true
